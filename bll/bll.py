@@ -1,10 +1,12 @@
 from typing import Union
 from dataclasses import dataclass
-import pandas as pd
 
-from binance_calc import Calc
-from bybit_operation import Bybit
-import constants
+import pandas as pd
+import datetime as dt
+
+from bll.binance_calc import Calc
+from bll.bybit_operation import Bybit
+from bll import constants
 
 
 @dataclass
@@ -13,11 +15,13 @@ class _MarketData:
     rsi: Union[int, float]
     hband: Union[int, float]
     lband: Union[int, float]
+    time: dt.datetime
 
     @classmethod
     def get_latest_values(cls):
         data = cls._fetch_market_data()
         last_row_values = data.sort_index(ascending=False).iloc[0]
+        last_row_values['time'] = last_row_values.name.to_pydatetime()
 
         return cls(**last_row_values)
 
@@ -56,12 +60,6 @@ class MarketData(_MarketData):
 class TradingObj(MarketData, Bybit):
     risk_percentage: Union[int, float]
 
-    def __post_init__(self):
-        self.risk_amount = self.initial_capital * self.risk_percentage
-        self.position_size = self.bybit.get_positions()
-        # Calculate position size based on available capital and desired risk percentage
-        self.order_size = self.risk_amount / self.close
-
     def __init__(
             self,
             rsi_threshold_buy: Union[int, float],
@@ -74,9 +72,26 @@ class TradingObj(MarketData, Bybit):
         Bybit.__init__(self, initial_capital=initial_capital)
         self.risk_percentage = risk_percentage
 
+        self.risk_amount = self.initial_capital * self.risk_percentage
+        self.position_size = self.bybit.get_positions()
+        # Calculate position size based on available capital and desired risk percentage
+        self.order_size = self.risk_amount / self.close
+
     def buy_by_order_size(self) -> None:
         self.buy(self.order_size)
 
     def sell_by_position_size(self) -> None:
         self.sell(self.position_size)
+
+    @property
+    def str_time(self) -> str:
+        return self.time.strftime('%d/%m/%Y %H:%M')
+
+    @property
+    def buying_log_msg(self) -> str:
+        return f"{self.str_time} - BUYING"
+
+    @property
+    def selling_log_msg(self) -> str:
+        return f"{self.str_time} - SELLING"
 

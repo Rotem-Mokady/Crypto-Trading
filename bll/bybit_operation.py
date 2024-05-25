@@ -1,7 +1,7 @@
 from pybit.unified_trading import HTTP
 from typing import Union
 
-from constants import (
+from bll.constants import (
     API_KEY, API_SECRET, BYBIT_SYMBOL, BYBIT_ORDER_TYPE, BYBIT_BUYING_METHOD_NAME, BYBIT_SELLING_METHOD_NAME
 )
 
@@ -15,6 +15,7 @@ class Bybit:
         # Initialize the Bybit exchange API
         self.bybit = HTTP(
             testnet=False,
+            # TODO: turn on when available
             # Optional: Add your API key and secret if you have them
             # api_key=API_KEY,
             # api_secret=API_SECRET
