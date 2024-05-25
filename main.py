@@ -32,4 +32,6 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    from bll.logs_processor import Processor
+    Processor().run()

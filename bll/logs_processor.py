@@ -9,7 +9,7 @@ class Processor:
     def __init__(self):
 
         self.dir = 'logs'
-        self.file_Type = 'txt'
+        self.file_type = 'txt'
         self.log_type = "INFO"
 
         self.exported_filename = "logs_data.xlsx"
@@ -39,7 +39,7 @@ class Processor:
         return pd.DataFrame(rows)
 
     def _file_generator(self, filename: str) -> Union[pd.DataFrame, None]:
-        if not filename.endswith(f'.{self.log_type}'):  # Process only .txt files
+        if not filename.endswith(f'.{self.file_type}'):  # Process only .txt files
             return
 
         file_path = os.path.join(self.dir, filename)
@@ -49,7 +49,7 @@ class Processor:
         df = self._lines_generator(lines=lines)
         return df
 
-    def _run(self) -> pd.DataFrame:
+    def _run(self) -> Union[pd.DataFrame, None]:
         files = os.listdir(self.dir)
         files_data = []
 
@@ -57,12 +57,19 @@ class Processor:
         for filename in files:
             file_data = self._file_generator(filename)
 
-            if file_data:
+            if file_data is not None:
                 files_data.append(file_data)
+
+        if not files_data:
+            return
 
         df = pd.concat(files_data, ignore_index=True)
         return df
 
     def run(self) -> None:
         final_df = self._run()
-        final_df.to_excel(self.exported_filename)
+
+        if final_df is not None:
+            final_df.to_excel(self.exported_filename, index=False)
+        else:
+            print("No available data to show")
