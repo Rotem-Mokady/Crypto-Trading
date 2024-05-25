@@ -1,11 +1,6 @@
 logs/*
 logs/
-build/*
-build
-dist/*
-dist
 *.xlsx
 *.exe
-*.spec
 
 
