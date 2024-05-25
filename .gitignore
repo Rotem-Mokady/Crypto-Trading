@@ -1,3 +1,11 @@
-logs/*.txt
+logs/*
+logs/
+build/*
+build
+dist/*
+dist
 *.xlsx
+*.exe
+*.spec
+
 

@@ -3,3 +3,6 @@ ccxt>=4.3.30
 ta
 pybit
 openpyxl>=3.1.2
+pyinstaller
+
+
