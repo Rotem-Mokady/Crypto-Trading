@@ -29,5 +29,3 @@ def trading_logic_running() -> None:
 if __name__ == '__main__':
     trading_logic_running()
 
-    from bll.logs_processor import Processor
-    Processor().run()
