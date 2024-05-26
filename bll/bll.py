@@ -64,7 +64,7 @@ class TradingObj(MarketData, Bybit):
             self,
             rsi_threshold_buy: Union[int, float],
             rsi_threshold_sell: Union[int, float],
-            initial_capital: int,
+            initial_capital: Union[int, float],
             risk_percentage: Union[int, float]
     ) -> None:
 
