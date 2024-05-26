@@ -1,4 +1,4 @@
-from bll.logs_processor import Processor
+from bll import Processor
 
 
 def run() -> None:
