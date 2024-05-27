@@ -1,6 +1,3 @@
-import os
-
-
 BINANCE_SYMBOL = 'BTC/USDT'
 TIMEFRAME = '15m'
 
@@ -9,9 +6,6 @@ BOLLINGER_PERIOD = 20
 BOLLINGER_STD_DEV = 2
 
 CANDLE_RELEVANT_VALUE = 'close'
-
-API_KEY = os.environ['API_KEY']
-API_SECRET = os.environ['API_SECRET']
 
 BYBIT_SYMBOL = 'BTCUSD'
 BYBIT_ORDER_TYPE = 'Market'

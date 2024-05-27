@@ -16,6 +16,16 @@ def _initial_capital_handler() -> float:
             print(f"inappropriate initial capital, error occurred: {repr(e)}")
 
 
+def _dry_run_handler() -> str:
+    dry_run_answer = input('Do you want to process a dry run? (Y/N)\n'
+                           '*** "dry" means to run the algo without actually buying or selling. ***')
+
+    while dry_run_answer not in ('Y', 'N'):
+        dry_run_answer = input("Please choose Y or N")
+
+    return dry_run_answer
+
+
 def _error_response_handler() -> bool:
     error_user_response = input("Do you want to continue? (Y/N)")
 
@@ -29,6 +39,7 @@ def run() -> None:
     os.environ['API_KEY'] = input("Please enter your API KEY")
     os.environ['API_SECRET'] = input("Please enter your API SECRET")
 
+    os.environ['DRY_RUN_USER_ANSWER'] = _dry_run_handler()
     initial_capital = _initial_capital_handler()
 
     continuing_user_response = True
